@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/books/create', [BookController::class, 'create'])->name('book.create');
     Route::get('/books/print', [BookController::class, 'print'])->name('book.print');
     Route::get('/books/export', [BookController::class, 'export'])->name('book.export');
+    Route::post('/books/import', [BookController::class, 'import'])->name('book.import');
 
     Route::post('/books', [BookController::class, 'store'])->name('book.store');
     Route::get('/books/{id}/edit', [BookController::class, 'edit'])->name('book.edit');

@@ -4,15 +4,47 @@
             {{ __('Daftar Buku') }}
         </h2>
     </x-slot>
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-6">
                 <x-primary-button tag="a" href="{{ route('book.create') }}">Tambah Data Buku</x-primary-button>
-                <x-primary-button tag="a" href="{{ route('book.print') }}" target="blank">Print Data Buku</x-primary-button>
-                <x-primary-button tag="a" href="{{ route('book.export') }}" target="blank">Export Data Buku</x-primary-button>
+                <x-primary-button tag="a" href="{{ route('book.print') }}" target="blank">Print Data
+                    Buku</x-primary-button>
+                <x-primary-button tag="a" href="{{ route('book.export') }}" target="blank">Export Data
+                    Buku</x-primary-button>
+                <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal','import-book')">
+                    {{ __('Import Data Excel') }}
+
+                </x-primary-button>
             </div>
-            
+
+
+            <x-modal name="import-book" focusable maxWidth="xl">
+                <form method="post" action="{{ route('book.import') }}" class="p-6" enctype="multipart/form-data">
+                    @csrf
+
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        {{ __('Import Data Buku') }}
+                    </h2>
+
+                    <div class="max-w-xl">
+                        <x-input-label for="cover" class="sr-only" value="File Import" />
+                        <x-file-input id="cover" name="file" class="mt-1 block w-full" required />
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <x-secondary-button x-on:click="$dispatch('close')">
+                            {{ __('Cancel') }}
+                        </x-secondary-button>
+
+                        <x-primary-button class="ml-3">
+                            {{ __('Upload') }}
+                        </x-primary-button>
+                    </div>
+                </form>
+            </x-modal>
+
             <x-table>
                 <x-slot name="header">
                     <tr>
@@ -29,7 +61,7 @@
                     </tr>
                 </x-slot>
 
-                @php $num=1; @endphp
+                @php $num = 1; @endphp
                 @foreach($books as $book)
                     <tr>
                         <td>{{ $num++ }}</td>
@@ -40,7 +72,7 @@
                         <td>{{ $book->city }}</td>
                         <td>
                             @if($book->cover)
-                                <img src="{{ asset('storage/cover_buku/'.$book->cover) }}" width="100px" alt="Cover"/>
+                                <img src="{{ asset('storage/cover_buku/' . $book->cover) }}" width="100px" alt="Cover" />
                             @else
                                 <span class="text-gray-400">No image</span>
                             @endif
@@ -49,7 +81,8 @@
                         <td>{{ $book->bookshelf->code }}-{{ $book->bookshelf->name }}</td>
                         <td>
                             <x-primary-button tag="a" href="{{ route('book.edit', $book->id) }}">Edit</x-primary-button>
-                            <form action="{{ route('book.destroy', $book->id) }}" method="post" class="inline-block" onsubmit="return confirm('Apakah yakin?');">
+                            <form action="{{ route('book.destroy', $book->id) }}" method="post" class="inline-block"
+                                onsubmit="return confirm('Apakah yakin?');">
                                 @csrf
                                 @method('DELETE')
                                 <x-danger-button type="submit">Hapus</x-danger-button>
