@@ -9,6 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-6">
                 <x-primary-button tag="a" href="{{ route('book.create') }}">Tambah Data Buku</x-primary-button>
+                <x-primary-button tag="a" href="{{ route('book.print') }}" target="blank">Print Data Buku</x-primary-button>
+                <x-primary-button tag="a" href="{{ route('book.export') }}" target="blank">Export Data Buku</x-primary-button>
             </div>
             
             <x-table>
